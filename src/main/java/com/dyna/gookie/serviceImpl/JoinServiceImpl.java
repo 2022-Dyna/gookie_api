@@ -26,9 +26,9 @@ public class JoinServiceImpl implements JoinService {
         map.put("check", id);
 
         if (id == 0){
-            map.put("msg", "사용가능한 아이디입니다.");
+            map.put("msg", "사용 가능한 아이디입니다.");
         }else{
-            map.put("msg", "사용가능한 아이디입니다.");
+            map.put("msg", "사용 불가능한 아이디입니다.");
         }
 
         return map;
@@ -39,6 +39,9 @@ public class JoinServiceImpl implements JoinService {
     public int join(MemberJoinDto member){
         String pw = BCrypt.hashpw(member.getMemberLoginPw(), BCrypt.gensalt());
         member.setMemberLoginPw(pw);
+        if (!member.getMonaCd().isEmpty()){
+
+        }
         return joinMapper.join(member);
     }
 }

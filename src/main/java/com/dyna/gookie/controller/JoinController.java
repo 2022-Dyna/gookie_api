@@ -1,10 +1,8 @@
 package com.dyna.gookie.controller;
 
 import com.dyna.gookie.dto.MemberJoinDto;
-import com.dyna.gookie.entity.Member;
 import com.dyna.gookie.service.JoinService;
 import com.dyna.gookie.utils.Response;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,12 +25,12 @@ public class JoinController {
 
         HashMap<String, Object> map = joinService.idCheck(memberLoginId);
 
-        Response response = new Response(200, "성공", map);
+        Response response = new Response(200, "연결 성공", map);
 
         return new ResponseEntity<>(response, httpHeaders, HttpStatus.OK);
 
     }
-    
+
     //TODO 회원가입
     @PostMapping
     public ResponseEntity join(@RequestBody MemberJoinDto member){
@@ -40,7 +38,7 @@ public class JoinController {
 
         int result = joinService.join(member);
 
-        Response response = new Response(200, "성공", result);
+        Response response = new Response(200, "연결 성공", result);
 
         return new ResponseEntity<>(response, httpHeaders, HttpStatus.OK);
     }
