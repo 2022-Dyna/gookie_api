@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.HashMap;
 
 @RestController
@@ -33,7 +34,7 @@ public class JoinController {
 
     //TODO 회원가입
     @PostMapping
-    public ResponseEntity join(@RequestBody MemberJoinDto member){
+    public ResponseEntity join(@RequestBody MemberJoinDto member) throws MessagingException {
         HttpHeaders httpHeaders = new HttpHeaders();
 
         int result = joinService.join(member);

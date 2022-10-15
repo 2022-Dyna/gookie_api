@@ -19,11 +19,11 @@ public class MailController {
 
     @PostMapping("/send")
     @ResponseBody
-    public ResponseEntity send(@RequestParam(value = "memLoginId") String memLoginId) throws MessagingException
+    public ResponseEntity send(@RequestParam(value = "memberLoginId") String memberLoginId) throws MessagingException
     {
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        String mail = mailService.send(memLoginId);
+        String mail = mailService.send(memberLoginId);
 
         Response response = new Response(200, "성공", mail);
 

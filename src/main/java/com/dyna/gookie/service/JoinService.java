@@ -2,6 +2,7 @@ package com.dyna.gookie.service;
 
 import com.dyna.gookie.dto.MemberJoinDto;
 
+import javax.mail.MessagingException;
 import java.util.HashMap;
 
 public interface JoinService {
@@ -9,6 +10,6 @@ public interface JoinService {
     HashMap<String, Object> idCheck(String memberLoginId);
 
     //TODO 회원가입
-    int join(MemberJoinDto member);
+    int join(MemberJoinDto member) throws MessagingException;
 
 }

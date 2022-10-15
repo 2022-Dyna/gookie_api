@@ -17,7 +17,7 @@ public class MemberJoinDto {
     //TODO 멤버 이름
     private String memberName;
     //TODO 멤버 권한(국회의원, 일반유저)
-    private String MonaCd;
+    private String monaCd;
 
     //TODO 국회 회원가입 여부
     private int role;
