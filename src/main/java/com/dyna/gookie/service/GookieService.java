@@ -1,9 +1,9 @@
 package com.dyna.gookie.service;
 
-import com.dyna.gookie.entity.Gookie;
+import java.util.HashMap;
 
 public interface GookieService {
 
     //TODO 국회의원 상세 정보
-    Gookie detailGookie(String monaCd);
+    HashMap<String, Object> detailGookie(String eMail, String monaCd);
 }

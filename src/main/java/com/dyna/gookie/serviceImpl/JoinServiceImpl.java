@@ -9,7 +9,7 @@ import com.dyna.gookie.service.MailService;
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
 
 import javax.mail.MessagingException;
 import java.util.HashMap;
@@ -43,17 +43,34 @@ public class JoinServiceImpl implements JoinService {
 
     //TODO 회원가입
     @Override
-    public int join(MemberJoinDto member) throws MessagingException {
+    public HashMap<String, Object> join(MemberJoinDto member) throws MessagingException {
+        HashMap<String, Object> map = new HashMap<>();
 
-        if (StringUtils.isEmpty(member.getMonaCd())){
+        if (ObjectUtils.isEmpty(member.getMonaCd())){
             String pw = BCrypt.hashpw(member.getMemberLoginPw(), BCrypt.gensalt());
             member.setMemberLoginPw(pw);
         }else {
-            Gookie gookie = gookieMapper.detailGookie(member.getMonaCd());
+            Gookie gookie = gookieMapper.detailGookie(member.getMemberLoginId(), member.getMonaCd());
+            if (gookie == null){
+                map.put("result", "존재하지 않는 국회의원 입니다.");
+                return map;
+            }
+            if (joinMapper.idCheck(gookie.getEMail()) != 0){
+                map.put("result", "이미 가입 이력이 않는 국회의원 입니다.");
+                return map;
+            }
             String pw = mailService.createPw(member.getMemberLoginId(), gookie.getHgNm());
             member.setMemberName(gookie.getHgNm());
             member.setMemberLoginPw(BCrypt.hashpw(pw, BCrypt.gensalt()));
         }
-        return joinMapper.join(member);
+
+        int result = joinMapper.join(member);
+
+        if(result == 0){
+            map.put("result", "회원가입에 실패했습니다");
+        } else {
+            map.put("result", "회원가입에 성공했습니다");
+        }
+        return map;
     }
 }

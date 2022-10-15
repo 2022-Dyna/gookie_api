@@ -1,6 +1,5 @@
 package com.dyna.gookie.controller;
 
-import com.dyna.gookie.entity.Gookie;
 import com.dyna.gookie.service.GookieService;
 import com.dyna.gookie.utils.Response;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/gookie")
@@ -21,13 +22,13 @@ public class GookieController {
 
     //TODO 국희의원 상세정보보
    @GetMapping
-    public ResponseEntity detailGookie(@RequestParam(value = "monaCd") String monaCd){
+    public ResponseEntity detailGookie(@RequestParam(value = "eMail") String eMail, @RequestParam(value = "monaCd") String monaCd){
 
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        Gookie gookie = gookieService.detailGookie(monaCd);
+        HashMap<String, Object> map = gookieService.detailGookie(eMail, monaCd);
 
-        Response response = new Response(200, "성공", gookie);
+        Response response = new Response(200, "성공", map);
 
         return new ResponseEntity<>(response, httpHeaders, HttpStatus.OK);
     }

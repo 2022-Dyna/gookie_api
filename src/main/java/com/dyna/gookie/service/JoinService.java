@@ -10,6 +10,6 @@ public interface JoinService {
     HashMap<String, Object> idCheck(String memberLoginId);
 
     //TODO 회원가입
-    int join(MemberJoinDto member) throws MessagingException;
+    HashMap<String, Object> join(MemberJoinDto member) throws MessagingException;
 
 }

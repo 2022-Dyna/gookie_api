@@ -37,9 +37,9 @@ public class JoinController {
     public ResponseEntity join(@RequestBody MemberJoinDto member) throws MessagingException {
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        int result = joinService.join(member);
+        HashMap<String, Object> map = joinService.join(member);
 
-        Response response = new Response(200, "연결 성공", result);
+        Response response = new Response(200, "연결 성공", map);
 
         return new ResponseEntity<>(response, httpHeaders, HttpStatus.OK);
     }
