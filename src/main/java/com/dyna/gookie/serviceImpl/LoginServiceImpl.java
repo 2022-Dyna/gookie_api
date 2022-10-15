@@ -6,9 +6,7 @@ import com.dyna.gookie.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import org.springframework.util.ObjectUtils;
 
 @RequiredArgsConstructor
 @Service
@@ -16,16 +14,14 @@ public class LoginServiceImpl implements LoginService {
     private final LoginMapper loginMapper;
     //TODO 로그인
     @Override
-    public String login(String memberLoginId, String memberLoginPw, HttpServletRequest request){
+    public String login(String memberLoginId, String memberLoginPw){
         Member member = loginMapper.login(memberLoginId);
-        HttpSession session = request.getSession();
-
+        if (ObjectUtils.isEmpty(member)){
+            return "가입되지 않은 회원입니다";
+        }
         if(BCrypt.checkpw(memberLoginPw, member.getMemberLoginPw())){
-            session.setAttribute("login", true);
-            session.setMaxInactiveInterval(3600 * 24);
             return "로그인 성공";
         }else {
-            session.setAttribute("login", false);
          return "로그인 실패";
         }
     }
