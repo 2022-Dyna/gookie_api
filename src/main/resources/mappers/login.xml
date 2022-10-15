@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dyna.gookie.mapper.LoginMapper">
+
+    <!--TODO 로그인 -->
+    <select id="login" resultType="Member">
+        SELECT member_login_id, member_login_pw, member_name, member_role
+        FROM member
+        WHERE member_login_id = #{memberLoginId}
+    </select>
+</mapper>
