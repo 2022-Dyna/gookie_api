@@ -24,7 +24,7 @@ public class JoinServiceImpl implements JoinService {
 
     //TODO 아이디 중복체크
     @Override
-    public HashMap<String, Object> idCheck(String memberLoginId){
+    public HashMap<String, Object> idCheck(String memberLoginId) throws MessagingException{
 
         HashMap<String, Object> map = new HashMap<String, Object>();
 
@@ -33,7 +33,9 @@ public class JoinServiceImpl implements JoinService {
         map.put("check", id);
 
         if (id == 0){
+            String code = mailService.send(memberLoginId);
             map.put("msg", "사용 가능한 아이디입니다.");
+            map.put("code", code);
         }else{
             map.put("msg", "사용 불가능한 아이디입니다.");
         }
@@ -43,17 +45,34 @@ public class JoinServiceImpl implements JoinService {
 
     //TODO 회원가입
     @Override
-    public int join(MemberJoinDto member) throws MessagingException {
+    public HashMap<String,Object> join(MemberJoinDto member) throws MessagingException {
+        HashMap<String,Object> resultMap = new HashMap<>();
+
 
         if (StringUtils.isEmpty(member.getMonaCd())){
             String pw = BCrypt.hashpw(member.getMemberLoginPw(), BCrypt.gensalt());
             member.setMemberLoginPw(pw);
         }else {
             Gookie gookie = gookieMapper.detailGookie(member.getMonaCd());
-            String pw = mailService.createPw(member.getMemberLoginId(), gookie.getHgNm());
-            member.setMemberName(gookie.getHgNm());
-            member.setMemberLoginPw(BCrypt.hashpw(pw, BCrypt.gensalt()));
+            if(gookie!=null){
+                String pw = mailService.createPw(member.getMemberLoginId(), gookie.getHgNm());
+                member.setMemberName(gookie.getHgNm());
+                member.setMemberLoginPw(BCrypt.hashpw(pw, BCrypt.gensalt()));
+            }else {
+                resultMap.put("error","2");
+                resultMap.put("message","monaCd에 해당되는 국회의원이 없습니다.");
+            }
+
         }
-        return joinMapper.join(member);
+        int result = joinMapper.join(member);
+        resultMap.put("result",result);
+        if(result>0){
+            resultMap.put("error","0");
+            resultMap.put("message","회원가입 성공.");
+        }else {
+            resultMap.put("error","2");
+            resultMap.put("message","회원가입 실패.");
+        }
+        return resultMap;
     }
 }

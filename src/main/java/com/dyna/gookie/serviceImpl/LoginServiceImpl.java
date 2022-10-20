@@ -8,21 +8,23 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.util.HashMap;
+
 @RequiredArgsConstructor
 @Service
 public class LoginServiceImpl implements LoginService {
     private final LoginMapper loginMapper;
     //TODO 로그인
     @Override
-    public String login(String memberLoginId, String memberLoginPw){
-        Member member = loginMapper.login(memberLoginId);
+    public int login(HashMap<String ,Object> requestMap){
+        Member member = loginMapper.login((String)requestMap.get("memberLoginId"));
         if (ObjectUtils.isEmpty(member)){
-            return "가입되지 않은 회원입니다";
+            return 1;
         }
-        if(BCrypt.checkpw(memberLoginPw, member.getMemberLoginPw())){
-            return "로그인 성공";
+        if(BCrypt.checkpw((String)requestMap.get("memberLoginPw"), member.getMemberLoginPw())){
+            return 0;
         }else {
-         return "로그인 실패";
+         return 2;
         }
     }
 }

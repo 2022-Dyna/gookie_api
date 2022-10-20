@@ -19,7 +19,7 @@ public class GookieController {
 
     private final GookieService gookieService;
 
-    //TODO 국희의원 상세정보보
+    //TODO 국희의원 상세정보
    @GetMapping
     public ResponseEntity detailGookie(@RequestParam(value = "monaCd") String monaCd){
 

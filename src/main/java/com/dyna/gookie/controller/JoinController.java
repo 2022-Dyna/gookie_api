@@ -21,7 +21,7 @@ public class JoinController {
 
     //TODO 아이디 중복체크
     @GetMapping
-    public ResponseEntity idCheck(@RequestParam(value = "memberLoginId") String memberLoginId){
+    public ResponseEntity idCheck(@RequestParam(value = "memberLoginId") String memberLoginId) throws MessagingException {
         HttpHeaders httpHeaders = new HttpHeaders();
 
         HashMap<String, Object> map = joinService.idCheck(memberLoginId);
@@ -37,11 +37,12 @@ public class JoinController {
     public ResponseEntity join(@RequestBody MemberJoinDto member) throws MessagingException {
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        int result = joinService.join(member);
+        HashMap<String,Object > result= joinService.join(member);
 
         Response response = new Response(200, "연결 성공", result);
 
         return new ResponseEntity<>(response, httpHeaders, HttpStatus.OK);
     }
+
 
 }

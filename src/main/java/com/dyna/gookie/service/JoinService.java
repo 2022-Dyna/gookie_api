@@ -7,9 +7,9 @@ import java.util.HashMap;
 
 public interface JoinService {
     //TODO 아이디 중복체크
-    HashMap<String, Object> idCheck(String memberLoginId);
+    HashMap<String, Object> idCheck(String memberLoginId) throws MessagingException;
 
     //TODO 회원가입
-    int join(MemberJoinDto member) throws MessagingException;
+    HashMap<String,Object> join(MemberJoinDto member) throws MessagingException;
 
 }
