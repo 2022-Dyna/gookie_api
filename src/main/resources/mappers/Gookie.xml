@@ -7,4 +7,14 @@
         SELECT * FROM gookie
         WHERE e_mail = #{eMail} AND mona_cd = #{monaCd}
     </select>
+
+    <!--TODO 국회의원 회의정보-->
+    <select id="getMeetingList" resultType="hashmap">
+        SELECT * FROM meeting
+    </select>
+
+    <!--TODO 국회의원 회의정보-->
+    <select id="getGookieList" resultType="hashmap">
+        SELECT * FROM gookie
+    </select>
 </mapper>

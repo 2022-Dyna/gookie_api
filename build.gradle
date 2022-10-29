@@ -28,6 +28,7 @@ dependencies {
     implementation 'org.apache.commons:commons-collections4:4.4'
     implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail'
+    implementation 'org.jsoup:jsoup:1.15.3'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     runtimeOnly 'mysql:mysql-connector-java'

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,5 +26,22 @@ public class GookieServiceImpl implements GookieService {
             map.put("result", gookie);
         }
         return map;
+    }
+
+    //TODO 국회의원 상세 정보
+    @Override
+    public List<HashMap<String, Object>> getMeetingList(){
+        HashMap<String, Object> map = new HashMap<>();
+        List<HashMap<String,Object>> meetingList = gookieMapper.getMeetingList();
+
+        return meetingList;
+    }
+
+    //TODO 국회의원 상세 정보
+    @Override
+    public List<HashMap<String, Object>> getGookieList(){
+        List<HashMap<String,Object>> getGookieList = gookieMapper.getGookieList();
+
+        return getGookieList;
     }
 }

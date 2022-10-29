@@ -13,4 +13,16 @@
              #{arr.MONA_CD}, #{arr.SECRETARY2}, #{arr.JOB_RES_NM}, #{arr.STAFF}, #{arr.HOMEPAGE}, #{arr.CMIT_NM}, #{arr.SECRETARY}, #{arr.ORIG_NM}, #{arr.UNITS})
         </foreach>
     </insert>
+
+    <!--TODO 국회의원 정보 INSERT -->
+    <insert id="insertGookie" parameterType="hashmap">
+        INSERT INTO gookie
+        (tel_no, bth_gbn_nm, assem_addr, hj_nm, hg_nm, bth_date, elect_gbn_nm, poly_nm, reele_gbn_nm, cmits, mem_title, eng_nm, sex_gbn_nm, e_mail, mona_cd, selectary2, job_res_nm, staff, homepage, cmit_nm, selectary, orig_nm, unuts)
+        VALUES
+        <foreach collection="gookie" item="arr" separator=",">
+            (#{arr.TEL_NO}, #{arr.BTH_GBN_NM}, #{arr.ASSEM_ADDR}, #{arr.HJ_NM}, #{arr.HG_NM}, #{arr.BTH_DATE}, #{arr.ELECT_GBN_NM},
+            #{arr.POLY_NM}, #{arr.REELE_GBN_NM}, #{arr.CMITS}, #{arr.MEM_TITLE}, #{arr.ENG_NM}, #{arr.SEX_GBN_NM}, #{arr.E_MAIL},
+            #{arr.MONA_CD}, #{arr.SECRETARY2}, #{arr.JOB_RES_NM}, #{arr.STAFF}, #{arr.HOMEPAGE}, #{arr.CMIT_NM}, #{arr.SECRETARY}, #{arr.ORIG_NM}, #{arr.UNITS})
+        </foreach>
+    </insert>
 </mapper>

@@ -1,5 +1,6 @@
 package com.dyna.gookie.controller;
 
+import com.dyna.gookie.service.GookieService;
 import com.dyna.gookie.service.OpenService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.JSONParser;
@@ -14,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +23,7 @@ import java.util.HashMap;
 public class OpenController {
 
     private final OpenService openService;
+    private final GookieService gookieService;
     private final String key = "451d44aa30cf47b5b3d2a3eca536ec41";
 
     @GetMapping()
@@ -51,6 +54,85 @@ public class OpenController {
         }catch (Exception e){
             e.printStackTrace();
         }
+        return null;
+    }
+
+    @GetMapping("/meeting")
+    public HashMap<String, Object> getMeetingList(@RequestParam(value = "Type", defaultValue = "json") String Type,
+                                                     @RequestParam(value = "pIndex", defaultValue = "1") int pIndex,
+                                                     @RequestParam(value = "pSize", defaultValue = "1000") int pSize
+
+                                                  ){
+        String result = "";
+        HashMap<String, Object> resultMap = new HashMap<>();
+        try {
+            List<HashMap<String,Object>> meetingList = gookieService.getMeetingList();
+            List<HashMap<String,Object>> gookieList = gookieService.getGookieList();
+            for(HashMap<String,Object> row : meetingList){
+                System.out.println(row.get("BILL_NO"));
+                System.out.println(row.toString());
+                URL url = new URL("https://open.assembly.go.kr/portal/openapi/nojepdqqaweusdfbi?KEY="+key+
+                        "&Type="+Type+"&pIndex="+pIndex+"&pSize="+pSize+"&AGE=21"+"&BILL_ID="+row.get("BILL_NO"));
+
+                BufferedReader bf;
+//todo 가져온 각 본회의의 데이터로 gookielist의  mona_cd와 비교, 찬,반,불참을 가져와 List에 담아 저장후 insert -> 링크테이블에 299*1000개의 정보 저장
+                bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+
+                result = bf.readLine();
+
+                JSONParser jsonParser = new JSONParser();
+                JSONObject jsonObject = (JSONObject)jsonParser.parse(result);
+
+
+                System.out.println(jsonObject.toJSONString());
+
+
+            }
+
+
+
+
+
+            return resultMap;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    @GetMapping("/insertTotalMeeting")
+    public HashMap<String, Object> insertTotalMeeting(@RequestParam(value = "Type", defaultValue = "json") String Type,
+                                                  @RequestParam(value = "pIndex", defaultValue = "1") int pIndex,
+                                                  @RequestParam(value = "pSize", defaultValue = "1000") int pSize
+
+    ){
+        try{
+            URL url = new URL("https://open.assembly.go.kr/portal/openapi/nbslryaradshbpbpm?KEY="+key+
+                    "&Type="+Type+"&pIndex="+pIndex+"&pSize="+pSize+"&AGE=21");
+
+            BufferedReader bf;
+//todo 가져온 각 본회의의 데이터로 gookielist의  mona_cd와 비교, 찬,반,불참을 가져와 List에 담아 저장후 insert -> 링크테이블에 299*1000개의 정보 저장
+            bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+
+            String result = "";
+            result = bf.readLine();
+
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject)jsonParser.parse(result);
+
+            JSONArray nwvrqwxyaytdsfvhu = (JSONArray)jsonObject.get("nbslryaradshbpbpm");
+            JSONObject row = (JSONObject)nwvrqwxyaytdsfvhu.get(1);
+            JSONArray jsonList = (JSONArray)row.get("row");
+
+            System.out.println(jsonObject.toJSONString());
+
+        }catch (Exception e){
+
+        }
+
+
+
         return null;
     }
 }
