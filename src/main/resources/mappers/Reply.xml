@@ -5,15 +5,38 @@
     <!--TODO 국회의원에 대한 댓글 카운트 -->
     <select id="replyCount" resultType="int">
         SELECT COUNT(*) FROM reply
-        WHERE congress_id = #{congressId} AND reply_status = 1
+        <where>
+            congress_id = #{congressId} AND reply_status = 1
+        </where>
     </select>
 
     <!--TODO 국회의원에 대한 댓글 리스트 -->
     <select id="replyList" resultType="ReplyListDto">
-        SELECT r.*, m.member_name FROM reply r
+        SELECT r.*, m.member_name,
+               (SELECT COUNT(*) FROM likes l WHERE r.reply_id = l.reply_id AND likes_type = 0) AS likesCount
+        FROM reply r
         LEFT JOIN member m ON m.member_id = r.member_id
         WHERE r.congress_id = #{congressId} AND r.reply_status = 1
+        <choose>
+            <when test="sort == 1">
+                ORDER BY likesCount DESC
+            </when>
+            <when test="sort == 2">
+                ORDER BY reply_create_date DESC
+            </when>
+        </choose>
         LIMIT #{offset}, #{limit}
+    </select>
+
+    <!--TODO 베스트 댓글 리스트 -->
+    <select id="bestReplyList" resultType="ReplyListDto">
+        SELECT r.*, m.member_name,
+        (SELECT COUNT(*) FROM likes l WHERE r.reply_id = l.reply_id AND likes_type = 0) AS likesCount
+        FROM reply r
+        LEFT JOIN member m ON m.member_id = r.member_id
+        WHERE r.reply_status = 1 <![CDATA[AND DATE(r.reply_create_date) >= DATE(#{startDate}) AND DATE(r.reply_create_date) <= DATE(#{endDate})]]>
+        ORDER BY likesCount DESC
+        LIMIT 0,5
     </select>
 
     <!--TODO 댓글 작성-->
