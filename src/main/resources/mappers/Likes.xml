@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dyna.gookie.mapper.LikesMapper">
+    <!--TODO 좋아요 -->
+    <select id="likes" resultType="int">
+        SELECT COUNT(*) FROM likes WHERE reply_id = #{replyId} AND member_id = #{memberId} AND likes_type = #{likesType}
+    </select>
+
+    <delete id="likesPutItIn">
+        <choose>
+            <when test="count == 0">
+                INSERT INTO likes
+                (reply_id, member_id, likes_type)
+                VALUES
+                (#{likes.replyId}, #{likes.memberId}, #{likes.likesType})
+            </when>
+            <otherwise>
+                DELETE FROM likes
+                WHERE reply_id = #{likes.replyId} AND member_id = #{likes.memberId} AND likes_type = #{likes.likesType}
+            </otherwise>
+        </choose>
+    </delete>
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dyna.gookie.mapper.CongressReplyMapper">
+
+    <!--TODO 국회의원 댓글 리스트-->
+    <select id="congressReplyList" resultType="CongressReplyDto">
+        SELECT cr.congress_reply_id, m.member_id, m.member_name, cr.congress_reply_content,
+               cr.congress_reply_create_date, cr.congress_reply_modify_date,
+               (SELECT COUNT(*) FROM likes l WHERE l.reply_id = cr.congress_reply_id AND likes_type = 1) AS likesCount
+        FROM congress_reply cr
+                 INNER JOIN member m ON m.member_id = cr.member_id
+                 INNER JOIN reply r ON r.reply_id = cr.reply_id
+        WHERE cr.reply_id = #{replyId} AND cr.congress_reply_status = 1
+        ORDER BY cr.congress_reply_index ASC
+    </select>
+
+    <insert id="insCongressReply">
+        <selectKey keyProperty="orderNumber" resultType="int" order="BEFORE">
+            SELECT COUNT(*) FROM congress_reply WHERE reply_id = #{replyId} AND congress_reply_status = 1
+        </selectKey>
+        INSERT INTO congress_reply
+        (reply_id, member_id, congress_reply_content, congress_reply_index)
+        VALUES
+        (#{replyId}, #{memberId}, #{congressReplyContent}, #{orderNumber}+1)
+    </insert>
+
+    <update id="updCongressReply">
+        UPDATE congress_reply
+        SET congress_reply_content = #{congressReplyContent},
+            congress_reply_modify_date = NOW()
+        WHERE congress_reply_id = #{congressReplyId}
+    </update>
+
+    <update id="delCongressReply">
+        UPDATE congress_reply
+        SET congress_reply_status = 0,
+            congress_reply_index = 0
+        WHERE congress_reply_id = #{congressReplyId}
+    </update>
+</mapper>
