@@ -5,5 +5,5 @@ import java.util.HashMap;
 
 public interface LoginService {
     //TODO 로그인
-    int login(HashMap<String,Object> requestMap);
+    HashMap<String,Object> login(HashMap<String,Object> requestMap);
 }

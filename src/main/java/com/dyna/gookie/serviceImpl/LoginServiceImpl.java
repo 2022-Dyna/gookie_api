@@ -16,15 +16,20 @@ public class LoginServiceImpl implements LoginService {
     private final LoginMapper loginMapper;
     //TODO 로그인
     @Override
-    public int login(HashMap<String ,Object> requestMap){
+    public HashMap<String,Object> login(HashMap<String ,Object> requestMap){
+        HashMap<String ,Object> resultMap = new HashMap<>();
         Member member = loginMapper.login((String)requestMap.get("memberLoginId"));
         if (ObjectUtils.isEmpty(member)){
-            return 1;
+            resultMap.put("result","1");
+            return resultMap;
         }
         if(BCrypt.checkpw((String)requestMap.get("memberLoginPw"), member.getMemberLoginPw())){
-            return 0;
+            resultMap.put("result","0");
+            resultMap.put("loginObj",member);
+            return resultMap;
         }else {
-         return 2;
+            resultMap.put("result","2");
+         return resultMap;
         }
     }
 }

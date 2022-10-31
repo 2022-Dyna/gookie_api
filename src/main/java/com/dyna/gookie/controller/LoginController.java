@@ -23,7 +23,7 @@ public class LoginController {
     public ResponseEntity login(@RequestBody HashMap<String,Object> requestMap) throws Exception{
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        int result = loginService.login(requestMap);
+        HashMap<String ,Object> result = loginService.login(requestMap);
 
         Response response = new Response(200, "성공", result);
 

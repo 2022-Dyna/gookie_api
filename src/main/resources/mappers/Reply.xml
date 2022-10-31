@@ -12,8 +12,15 @@
 
     <!--TODO 국회의원에 대한 댓글 리스트 -->
     <select id="replyList" resultType="ReplyListDto">
-        SELECT r.*, m.member_name,
-               (SELECT COUNT(*) FROM likes l WHERE r.reply_id = l.reply_id AND likes_type = 0) AS likesCount
+        SELECT   r.reply_id
+                ,r.member_id
+                ,r.congress_id
+                ,r.reply_content
+                ,r.reply_status
+                ,DATE_FORMAT(r.reply_create_date,'%Y.%m.%d') as reply_create_date
+                ,DATE_FORMAT(r.reply_modify_date,'%Y.%m.%d') as reply_modify_date
+                ,m.member_name
+                ,(SELECT COUNT(*) FROM likes l WHERE r.reply_id = l.reply_id AND likes_type = 0) AS likesCount
         FROM reply r
         LEFT JOIN member m ON m.member_id = r.member_id
         WHERE r.congress_id = #{congressId} AND r.reply_status = 1
