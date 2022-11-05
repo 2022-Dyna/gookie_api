@@ -29,7 +29,7 @@ public class ReplyController {
     }
 
     //TODO 국회의원 댓글 조회
-    @GetMapping
+    @GetMapping("/search")
     public ResponseEntity replyList(@RequestParam(value = "monaCd") String monaCd, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum
                                     ,@RequestParam(value = "sort", defaultValue = "1") int sort){
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -42,7 +42,7 @@ public class ReplyController {
     }
 
     //TODO 댓글 작성
-    @PostMapping
+    @PostMapping("/write")
     public ResponseEntity replyWrite(HttpServletRequest request, @RequestBody Reply reply){
 
         HttpHeaders httpHeaders = new HttpHeaders();

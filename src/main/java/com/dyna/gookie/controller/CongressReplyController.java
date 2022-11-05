@@ -14,11 +14,6 @@ public class CongressReplyController {
 
     private final CongressReplyService congressReplyService;
 
-    @GetMapping
-    public HashMap<String, Object> congressReplyList(@RequestParam(value = "replyId") int replyId){
-        return congressReplyService.congressReplyList(replyId);
-    }
-
     @PostMapping("/write")
     public HashMap<String, Object> insCongressReply(@RequestBody CongressReplyDto dto){
         return congressReplyService.insCongressReply(dto);
