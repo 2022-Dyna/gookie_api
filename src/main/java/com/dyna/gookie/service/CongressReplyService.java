@@ -11,5 +11,5 @@ public interface CongressReplyService {
 
     HashMap<String, Object> updCongressReply(CongressReplyDto dto);
 
-    HashMap<String, Object> delCongressReply(int congressReplyId);
+    HashMap<String, Object> delCongressReply(CongressReplyDto dto);
 }

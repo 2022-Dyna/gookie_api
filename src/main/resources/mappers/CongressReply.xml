@@ -28,13 +28,13 @@
         UPDATE congress_reply
         SET congress_reply_content = #{congressReplyContent},
             congress_reply_modify_date = NOW()
-        WHERE congress_reply_id = #{congressReplyId}
+        WHERE congress_reply_id = #{congressReplyId} AND member_id = #{memberId}
     </update>
 
     <update id="delCongressReply">
         UPDATE congress_reply
         SET congress_reply_status = 0,
             congress_reply_index = 0
-        WHERE congress_reply_id = #{congressReplyId}
+        WHERE congress_reply_id = #{congressReplyId} AND member_id = #{memberId}
     </update>
 </mapper>

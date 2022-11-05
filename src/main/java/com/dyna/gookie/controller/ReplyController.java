@@ -29,12 +29,12 @@ public class ReplyController {
     }
 
     //TODO 국회의원 댓글 조회
-    @GetMapping("/{congressId}")
-    public ResponseEntity replyList(@PathVariable(value = "congressId") int congressId, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum
+    @GetMapping
+    public ResponseEntity replyList(@RequestParam(value = "monaCd") String monaCd, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum
                                     ,@RequestParam(value = "sort", defaultValue = "1") int sort){
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        ReplyDto replyList = replyService.replyList(congressId, pageNum, sort);
+        ReplyDto replyList = replyService.replyList(monaCd, pageNum, sort);
 
         Response response = new Response(200, "성공", replyList);
 
@@ -55,7 +55,7 @@ public class ReplyController {
     }
 
     //TODO 댓글 수정
-    @PutMapping
+    @PostMapping("/rewrite")
     public ResponseEntity replyModify(HttpServletRequest request, @RequestBody Reply reply){
 
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -68,7 +68,7 @@ public class ReplyController {
     }
 
     //TODO 댓글 삭제
-    @DeleteMapping
+    @PostMapping("/delete")
     public ResponseEntity replyDelete(HttpServletRequest request, @RequestBody Reply reply){
 
         HttpHeaders httpHeaders = new HttpHeaders();

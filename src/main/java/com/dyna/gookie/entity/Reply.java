@@ -12,11 +12,11 @@ import org.apache.ibatis.type.Alias;
 public class Reply {
 
     //TODO 댓글 고유번호
-    private Long replyId;
+    private long replyId;
     //TODO 멤버 고유번호
-    private Long memberId;
+    private long memberId;
     //TODO 국횓의원 고유번호
-    private int congressId;
+    private String monaCd;
     //TODO 댓글 내용
     private String replyContent;
     //TODO 댓글 상태 0삭제 1 활성

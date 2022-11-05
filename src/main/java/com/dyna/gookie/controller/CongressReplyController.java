@@ -29,8 +29,8 @@ public class CongressReplyController {
         return congressReplyService.updCongressReply(dto);
     }
 
-    @PostMapping("/clear")
-    public HashMap<String, Object> delCongressReply(@RequestParam(value = "congressReplyId") int congressReplyId){
-        return congressReplyService.delCongressReply(congressReplyId);
+    @PostMapping("/delete")
+    public HashMap<String, Object> delCongressReply(@RequestBody CongressReplyDto dto){
+        return congressReplyService.delCongressReply(dto);
     }
 }

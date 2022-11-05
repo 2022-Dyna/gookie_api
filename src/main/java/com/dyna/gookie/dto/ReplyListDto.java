@@ -5,6 +5,8 @@ import lombok.Setter;
 import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
+import java.util.List;
+
 @Setter
 @Getter
 @ToString
@@ -16,7 +18,7 @@ public class ReplyListDto {
     //TODO 멤버 고유번호
     private long memberId;
     //TODO 국횓의원 고유번호
-    private long congressId;
+    private String monaCd;
     //TODO 댓글 내용
     private String replyContent;
     //TODO 댓글 생성일
@@ -30,4 +32,6 @@ public class ReplyListDto {
 
     //TODO 댓글에 달린 좋아요 슨
     private long likesCount;
+
+    private List<CongressReplyDto> congressReplyList;
 }
