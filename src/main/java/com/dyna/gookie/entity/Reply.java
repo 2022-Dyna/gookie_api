@@ -25,4 +25,6 @@ public class Reply {
     private String replyCreateDate;
     //TODO 댓글 수정일
     private String replyModifyDate;
+
+    private String role;
 }

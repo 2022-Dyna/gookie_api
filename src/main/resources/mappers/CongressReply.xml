@@ -8,8 +8,8 @@
                cr.congress_reply_create_date, cr.congress_reply_modify_date,
                (SELECT COUNT(*) FROM likes l WHERE l.reply_id = cr.congress_reply_id AND likes_type = 1) AS likesCount
         FROM congress_reply cr
-                 INNER JOIN member m ON m.member_id = cr.member_id
-                 INNER JOIN reply r ON r.reply_id = cr.reply_id
+        INNER JOIN member m ON m.member_id = cr.member_id
+        INNER JOIN reply r ON r.reply_id = cr.reply_id
         WHERE cr.reply_id = #{replyId} AND cr.congress_reply_status = 1
         ORDER BY cr.congress_reply_index ASC
     </select>

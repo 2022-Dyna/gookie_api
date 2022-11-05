@@ -29,7 +29,7 @@ public class ReplyController {
     }
 
     //TODO 국회의원 댓글 조회
-    @GetMapping("/search")
+        @GetMapping("/search")
     public ResponseEntity replyList(@RequestParam(value = "monaCd") String monaCd, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum
                                     ,@RequestParam(value = "sort", defaultValue = "1") int sort){
         HttpHeaders httpHeaders = new HttpHeaders();
