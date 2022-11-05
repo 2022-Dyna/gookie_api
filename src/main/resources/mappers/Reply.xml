@@ -6,7 +6,7 @@
     <select id="replyCount" resultType="int">
         SELECT COUNT(*) FROM reply
         <where>
-            congress_id = #{congressId} AND reply_status = 1
+            mona_cd = #{monaCd} AND reply_status = 1
         </where>
     </select>
 
@@ -23,13 +23,13 @@
                 ,(SELECT COUNT(*) FROM likes l WHERE r.reply_id = l.reply_id AND likes_type = 0) AS likesCount
         FROM reply r
         LEFT JOIN member m ON m.member_id = r.member_id
-        WHERE r.congress_id = #{congressId} AND r.reply_status = 1
+        WHERE r.mona_cd = #{monaCd} AND r.reply_status = 1
         <choose>
             <when test="sort == 1">
                 ORDER BY likesCount DESC
             </when>
             <when test="sort == 2">
-                ORDER BY reply_create_date DESC
+                ORDER BY r.reply_create_date DESC
             </when>
         </choose>
         LIMIT #{offset}, #{limit}
@@ -49,9 +49,9 @@
     <!--TODO 댓글 작성-->
     <insert id="replyWrite">
         INSERT INTO reply
-        (member_id, congress_id, reply_content)
+        (member_id, mona_cd, reply_content)
         VALUES
-        (1, 2, #{replyContent})
+        (#{memberId}, #{monaCd}, #{replyContent})
     </insert>
 
     <!--TODO 댓글 수정-->

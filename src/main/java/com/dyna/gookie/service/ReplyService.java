@@ -11,7 +11,7 @@ import java.util.HashMap;
 public interface ReplyService {
 
     //TODO 해당 국회의원에 대한 댓글 리스트
-    ReplyDto replyList(int congressId, int pageNum, int sort);
+    ReplyDto replyList(String monaCd, int pageNum, int sort);
 
     //TODO 댓글작성
     String replyWrite(HttpServletRequest request, Reply reply);

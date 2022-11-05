@@ -35,7 +35,8 @@ public class CongressReplyServiceImpl implements CongressReplyService {
     @Override
     public HashMap<String, Object> updCongressReply(CongressReplyDto dto){
         HashMap<String, Object> map = new HashMap<>();
-        int count = congressReplyMapper.updCongressReply(dto.getCongressReplyId(), dto.getCongressReplyContent());
+        System.out.println(dto);
+        int count = congressReplyMapper.updCongressReply(dto.getCongressReplyId(), dto.getMemberId(), dto.getCongressReplyContent());
         if (count == 0){
             map.put("fail", "실패");
         }else {
@@ -45,9 +46,9 @@ public class CongressReplyServiceImpl implements CongressReplyService {
     }
 
     @Override
-    public HashMap<String, Object> delCongressReply(int congressReplyId){
+    public HashMap<String, Object> delCongressReply(CongressReplyDto dto){
         HashMap<String, Object> map = new HashMap<>();
-        int count = congressReplyMapper.delCongressReply(congressReplyId);
+        int count = congressReplyMapper.delCongressReply(dto.getCongressReplyId(), dto.getMemberId());
         if (count == 0){
             map.put("fail", "실패");
         }else {

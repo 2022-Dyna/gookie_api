@@ -12,12 +12,13 @@ import org.apache.ibatis.type.Alias;
 @Alias("CongressReplyDto")
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class CongressReplyDto {
-    private int congressReplyId;
-    private int memberId;
-    private int replyId;
+    private long congressReplyId;
+    private long memberId;
+    private long replyId;
     private String memberName;
     private String congressReplyContent;
     private String congressReplyCreateDate;
     private String congressReplyModifyDate;
     private String likesCount;
+
 }

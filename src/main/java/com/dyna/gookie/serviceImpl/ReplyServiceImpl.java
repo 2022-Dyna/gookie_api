@@ -1,7 +1,9 @@
 package com.dyna.gookie.serviceImpl;
 
+import com.dyna.gookie.dto.CongressReplyDto;
 import com.dyna.gookie.dto.ReplyInfoDto;
 import com.dyna.gookie.entity.Reply;
+import com.dyna.gookie.mapper.CongressReplyMapper;
 import com.dyna.gookie.service.ReplyService;
 import com.dyna.gookie.dto.ReplyDto;
 import com.dyna.gookie.dto.ReplyListDto;
@@ -24,16 +26,21 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ReplyServiceImpl implements ReplyService {
 
+    private final CongressReplyMapper congressReplyMapper;
     private final ReplyMapper replyMapper;
 
     //TODO 해당 국회의원에 대한 댓글 리스트
     @Override
-    public ReplyDto replyList(int congressId, int pageNum, int sort){
-        int count = replyMapper.replyCount(congressId);
+    public ReplyDto replyList(String monaCd, int pageNum, int sort){
+        int count = replyMapper.replyCount(monaCd);
 
         Pagination pagination = MyUtils.Paging(count, pageNum, 10);
 
-        List<ReplyListDto> list = replyMapper.replyList(congressId, sort, pagination.getOffset(), pagination.getLimit());
+        List<ReplyListDto> list = replyMapper.replyList(monaCd, sort, pagination.getOffset(), pagination.getLimit());
+
+        for (ReplyListDto r : list){
+            r.setCongressReplyList(congressReplyMapper.congressReplyList(r.getReplyId()));
+        }
 
         return ReplyDto.builder().replyList(list).pagination(pagination).build();
     }
