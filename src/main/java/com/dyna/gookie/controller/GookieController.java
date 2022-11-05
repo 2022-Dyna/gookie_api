@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.swing.text.Document;
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,12 +24,28 @@ public class GookieController {
     private final GookieService gookieService;
 
     //TODO 국희의원 상세정보
-   @GetMapping
+   @GetMapping("/detail")
     public ResponseEntity detailGookie(@RequestParam(value = "eMail") String eMail, @RequestParam(value = "monaCd") String monaCd){
 
         HttpHeaders httpHeaders = new HttpHeaders();
 
         HashMap<String, Object> map = gookieService.detailGookie(eMail, monaCd);
+
+        map.put("meetingAtt","98");
+        map.put("replyPer","54");
+
+        System.out.println(map.toString());
+        Response response = new Response(200, "성공", map);
+
+        return new ResponseEntity<>(response, httpHeaders, HttpStatus.OK);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity listGookie(@RequestParam(value = "state") String state){
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+
+        HashMap<String, Object> map = gookieService.getGookieListState(state);
 
         Response response = new Response(200, "성공", map);
 

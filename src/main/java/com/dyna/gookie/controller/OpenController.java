@@ -67,7 +67,7 @@ public class OpenController {
         HashMap<String, Object> resultMap = new HashMap<>();
         try {
             List<HashMap<String,Object>> meetingList = gookieService.getMeetingList();
-            List<HashMap<String,Object>> gookieList = gookieService.getGookieList();
+            List<HashMap<String,Object>> gookieList = gookieService.getGookieList("");
             for(HashMap<String,Object> row : meetingList){
                 System.out.println(row.get("BILL_NO"));
                 System.out.println(row.toString());

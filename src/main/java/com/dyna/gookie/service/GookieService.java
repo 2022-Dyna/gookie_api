@@ -11,5 +11,7 @@ public interface GookieService {
     //TODO 국회의원 상세 정보
     List<HashMap<String, Object>> getMeetingList();
 
-    List<HashMap<String, Object>> getGookieList();
+    List<HashMap<String, Object>> getGookieList(String state);
+
+    HashMap<String, Object> getGookieListState(String state);
 }
