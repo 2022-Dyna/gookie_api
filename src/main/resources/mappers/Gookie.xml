@@ -17,4 +17,37 @@
     <select id="getGookieList" resultType="hashmap">
         SELECT orig_nm,e_mail,poly_nm,hg_nm,mona_cd FROM gookie order by hg_nm
     </select>
+
+    <!--TODO 국회의원 회의정보-->
+    <select id="getBestCom" resultType="hashmap">
+        SELECT
+               A.mona_cd
+             , A.con_count
+             , A.total_count
+             , Round(A.con_count/A.total_count*100) AS rate
+             , gk.hg_nm
+             , gk.poly_nm
+             , gk.e_mail
+            FROM(
+                SELECT
+                       rp.mona_cd
+                     , count(cr.reply_id) AS con_count
+                     , count(rp.reply_id) AS total_count
+                FROM reply rp
+                         left outer JOIN (
+                    SELECT
+                           reply_id
+                         , COUNT(reply_id) AS count
+                    FROM congress_reply
+                    GROUP BY reply_id
+                ) cr
+                ON cr.reply_id = rp.reply_id
+                GROUP BY  mona_cd
+            )A
+
+                INNER JOIN gookie gk
+                ON gk.mona_cd = A.mona_cd
+                ORDER BY rate desc
+                LIMIT 0,5
+    </select>
 </mapper>

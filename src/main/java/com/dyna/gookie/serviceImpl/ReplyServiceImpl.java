@@ -82,6 +82,16 @@ public class ReplyServiceImpl implements ReplyService {
         return map;
     }
 
+    @Override
+    public List<HashMap<String, Object>> myReplyList(HashMap<String, Object> paramMap) {
+        int pageNum = Integer.parseInt((String)paramMap.get("pageNum"));
+        int maxIdx = Integer.parseInt((String)paramMap.get("maxIdx"));
+        paramMap.put("pageNum",(pageNum-1)*maxIdx);
+        List<HashMap<String,Object>> list= replyMapper.myReplyList(paramMap);
+
+        return list;
+    }
+
     //TODO 댓글작성
     @Override
     public String replyWrite(HttpServletRequest request, Reply reply){
@@ -120,5 +130,7 @@ public class ReplyServiceImpl implements ReplyService {
         }
         return massage;
     }
+
+
 
 }

@@ -67,7 +67,9 @@ public class GookieController {
 
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        Response response = new Response(200, "성공", "map");
+        List<HashMap<String, Object>> map = gookieService.getBestCom();
+
+        Response response = new Response(200, "성공", map);
 
         return new ResponseEntity<>(response, httpHeaders, HttpStatus.OK);
     }

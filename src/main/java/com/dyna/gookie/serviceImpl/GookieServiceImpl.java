@@ -146,4 +146,13 @@ public class GookieServiceImpl implements GookieService {
 
         return resultMap;
     }
+
+    @Override
+    public List<HashMap<String, Object>> getBestCom() {
+        List<HashMap<String,Object>> list = gookieMapper.getBestCom();
+
+        return list;
+    }
+
+
 }

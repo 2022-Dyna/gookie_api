@@ -17,4 +17,6 @@ public interface GookieMapper {
 
     //TODO 국회의원 전체
     List<HashMap<String,Object>> getGookieList();
+
+    List<HashMap<String,Object>> getBestCom();
 }

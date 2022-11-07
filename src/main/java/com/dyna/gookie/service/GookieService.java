@@ -14,4 +14,6 @@ public interface GookieService {
     List<HashMap<String, Object>> getGookieList(String state);
 
     HashMap<String, Object> getGookieListState(String state);
+
+    List<HashMap<String, Object>> getBestCom();
 }

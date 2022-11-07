@@ -7,6 +7,7 @@ import com.dyna.gookie.entity.Reply;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.List;
 
 public interface ReplyService {
 
@@ -24,4 +25,7 @@ public interface ReplyService {
 
     //TODO 베스트 댓글 작성
     HashMap<String, Object> bestReplyList(int sort) throws ParseException;
+
+    //TODO 베스트 댓글 작성
+    List<HashMap<String, Object>> myReplyList(HashMap<String ,Object> paramMap);
 }

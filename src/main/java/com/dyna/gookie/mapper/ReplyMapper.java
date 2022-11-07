@@ -5,6 +5,7 @@ import com.dyna.gookie.entity.Reply;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Mapper
@@ -27,5 +28,8 @@ public interface ReplyMapper {
 
     //TODO 댓글 삭제
     int replyDelete(Reply reply);
+
+
+    List<HashMap<String,Object>> myReplyList(HashMap<String,Object> reply);
 
 }

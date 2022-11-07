@@ -68,4 +68,14 @@
         SET reply_status = 0
         WHERE reply_id = #{replyId} AND member_id = #{memberId}
     </delete>
+
+
+
+    <select id="myReplyList" resultType="ReplyListDto">
+        SELECT *
+        FROM reply
+        WHERE member_id = #{memberId}
+        ORDER BY reply_create_date
+            LIMIT ${pageNum}, ${maxIdx}
+    </select>
 </mapper>

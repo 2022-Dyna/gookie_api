@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.List;
 
 
 @RestController
@@ -76,6 +77,19 @@ public class ReplyController {
         String replyList = replyService.replyDelete(request, reply);
 
         Response response = new Response(200, replyList, replyList);
+
+        return new ResponseEntity<>(response, httpHeaders, HttpStatus.OK);
+    }
+
+    //TODO 댓글 삭제
+    @GetMapping("/myReplyList")
+    public ResponseEntity myReplyList(HttpServletRequest request, @RequestParam HashMap<String,Object> requestParam){
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+
+        List<HashMap<String,Object>> list = replyService.myReplyList(requestParam);
+
+        Response response = new Response(200, "list", list);
 
         return new ResponseEntity<>(response, httpHeaders, HttpStatus.OK);
     }
