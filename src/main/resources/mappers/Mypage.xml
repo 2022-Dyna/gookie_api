@@ -7,4 +7,69 @@
         SELECT * FROM member
         WHERE member_id = #{memberId}
     </select>
+
+    <select id="myReplyCount" resultType="int">
+        SELECT COUNT(*) FROM reply
+        WHERE member_id = #{memberId} AND reply_status = 1
+    </select>
+
+    <select id="myReplyList" resultType="ReplyListDto">
+        SELECT r.*, m.member_name,
+               (SELECT COUNT(*) FROM likes l WHERE r.reply_id = l.reply_id AND likes_type = 0) AS likesCount
+        FROM reply r
+                 LEFT JOIN member m ON m.member_id = r.member_id
+        WHERE r.member_id = #{memberId} AND r.reply_status = 1
+    </select>
+
+    <select id="myCongressReplyCount" resultType="int">
+        SELECT COUNT(*) FROM congress_reply
+        WHERE member_id = #{memberId} AND congress_reply_status = 1
+    </select>
+
+    <select id="myCongressReplyList" resultType="CongressReplyDto">
+        SELECT cr.congress_reply_id, m.member_id, m.member_name, cr.congress_reply_content,
+               cr.congress_reply_create_date, cr.congress_reply_modify_date,
+               (SELECT COUNT(*) FROM likes l WHERE l.reply_id = cr.congress_reply_id AND likes_type = 1) AS likesCount
+        FROM congress_reply cr
+        INNER JOIN member m ON m.member_id = cr.member_id
+        INNER JOIN reply r ON r.reply_id = cr.reply_id
+        WHERE m.member_id = #{memberId} AND cr.congress_reply_status = 1
+        ORDER BY cr.congress_reply_create_date DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="selectPw" resultType="String">
+        SELECT member_login_pw FROM member
+        WHERE member_id = #{memberId}
+    </select>
+
+    <select id="myFavorites" resultType="FavoritesInfoDto">
+        SELECT g.hg_nm, g.poly_nm FROM favorites f
+        LEFT JOIN gookie g ON f.mona_cd = g.mona_cd
+        WHERE f.member_id = #{memberId}
+    </select>
+
+    <insert id="insFavorites">
+        <selectKey keyProperty="status" resultType="int" order="BEFORE">
+            SELECT COUNT(*) FROM favorites WHERE member_id = #{memberId} AND mona_cd = #{monaCd}
+        </selectKey>
+        <choose>
+            <when test="status == 0">
+                INSERT INTO favorites
+                (member_id, mona_cd)
+                VALUES
+                (#{memberId}, #{monaCd})
+            </when>
+            <otherwise>
+                DELETE FROM favorites WHERE member_id = #{memberId} AND mona_cd = #{monaCd}
+            </otherwise>
+        </choose>
+    </insert>
+
+    <update id="passWordUpdate">
+        UPDATE member
+        SET member_login_pw = #{member.changePw}
+        WHERE member_id = #{member.memberId}
+    </update>
+
 </mapper>

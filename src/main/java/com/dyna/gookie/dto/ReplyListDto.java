@@ -1,5 +1,6 @@
 package com.dyna.gookie.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,6 +12,7 @@ import java.util.List;
 @Getter
 @ToString
 @Alias("ReplyListDto")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReplyListDto {
 
     //TODO 댓글 고유번호

@@ -46,7 +46,7 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
 
-    //TODO 베스트 댓글 작성
+    //TODO 베스트 댓글
     @Override
     public HashMap<String, Object> bestReplyList(int sort) throws ParseException {
         HashMap<String, Object> map = new HashMap<>();

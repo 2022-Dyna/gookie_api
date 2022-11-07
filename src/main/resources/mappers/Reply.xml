@@ -48,10 +48,15 @@
 
     <!--TODO 댓글 작성-->
     <insert id="replyWrite">
-        INSERT INTO reply
-        (member_id, mona_cd, reply_content)
-        VALUES
-        (#{memberId}, #{monaCd}, #{replyContent})
+        <selectKey keyProperty="role" resultType="String" order="BEFORE">
+            SELECT member_role FROM member WHERE member_id = #{memberId}
+        </selectKey>
+        <if test="role.equals('MEMBER')">
+            INSERT INTO reply
+            (member_id, mona_cd, reply_content)
+            VALUES
+            (#{memberId}, #{monaCd}, #{replyContent})
+        </if>
     </insert>
 
     <!--TODO 댓글 수정-->
