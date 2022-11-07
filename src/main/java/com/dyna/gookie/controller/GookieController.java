@@ -61,4 +61,14 @@ public class GookieController {
 
         return new ResponseEntity<>(response, httpHeaders, HttpStatus.OK);
     }
+
+    @GetMapping("/bestComunication")
+    public ResponseEntity bestComunication(){
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+
+        Response response = new Response(200, "성공", "map");
+
+        return new ResponseEntity<>(response, httpHeaders, HttpStatus.OK);
+    }
 }
