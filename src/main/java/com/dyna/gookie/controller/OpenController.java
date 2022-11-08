@@ -1,11 +1,13 @@
 package com.dyna.gookie.controller;
 
+import com.dyna.gookie.mapper.GookieMapper;
 import com.dyna.gookie.service.GookieService;
 import com.dyna.gookie.service.OpenService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +26,8 @@ public class OpenController {
 
     private final OpenService openService;
     private final GookieService gookieService;
+    @Autowired
+    private final GookieMapper gookieMapper;
     private final String key = "451d44aa30cf47b5b3d2a3eca536ec41";
 
     @GetMapping()
@@ -133,6 +137,54 @@ public class OpenController {
 
 
 
+        return null;
+    }
+
+    @GetMapping("/openApi")
+    public HashMap<String, Object> openApi(){
+        List<HashMap<String,Object>> list = gookieMapper.getMillId();
+        List<HashMap<String,Object>> gookieList = gookieMapper.getGookieList();
+        for(HashMap<String,Object> map : list){
+            try{
+                URL url = new URL("https://open.assembly.go.kr/portal/openapi/" +
+                        "nojepdqqaweusdfbi?KEY=451d44aa30cf47b5b3d2a3eca536ec41&Type=json&pIndex=1&pSize=1000&AGE=21&BILL_ID=" +
+                        map.get("bill_id"));
+
+                BufferedReader bf;
+                bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+                String result = "";
+                result = bf.readLine();
+
+                JSONParser jsonParser = new JSONParser();
+                JSONObject jsonObject = (JSONObject)jsonParser.parse(result);
+
+                JSONArray nojepdqqaweusdfbi = (JSONArray)jsonObject.get("nojepdqqaweusdfbi");
+                if(nojepdqqaweusdfbi==null){
+                    continue;
+                }
+                JSONObject row = (JSONObject)nojepdqqaweusdfbi.get(1);
+                JSONArray jsonList = (JSONArray)row.get("row");
+
+                for(HashMap<String,Object> gookieMap : gookieList){
+                    for(Object jsonObject1:jsonList){
+                        HashMap<String,Object> tempMap = new HashMap<>();
+                        tempMap.put("temp",jsonObject1);
+                        HashMap<String,Object> tempMap2 = (HashMap<String, Object>) tempMap.get("temp");
+                        System.out.println((String)tempMap2.get("HG_NM"));
+                        if(gookieMap.get("hg_nm").equals((String)tempMap2.get("HG_NM"))){
+                            HashMap<String,Object> paramMap = new HashMap<>();
+                            paramMap.put("mona_cd",gookieMap.get("mona_cd"));
+                            paramMap.put("result",tempMap2.get("RESULT_VOTE_MOD"));
+                            System.out.println((String)tempMap2.get("RESULT_VOTE_MOD"));
+                            gookieMapper.insertOpenApi(paramMap);
+                        }
+                    }
+                }
+
+            }catch (Exception e){
+
+            }
+        }
         return null;
     }
 }

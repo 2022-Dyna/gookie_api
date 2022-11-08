@@ -53,7 +53,7 @@ public class JoinServiceImpl implements JoinService {
             String pw = BCrypt.hashpw(member.getMemberLoginPw(), BCrypt.gensalt());
             member.setMemberLoginPw(pw);
         }else {
-            Gookie gookie = gookieMapper.detailGookie(member.getMemberLoginId(), member.getMonaCd());
+            Gookie gookie = gookieMapper.detailGookie( member.getMonaCd(),null);
             if(gookie!=null){
                 String pw = mailService.createPw(member.getMemberLoginId(), gookie.getHgNm());
                 member.setMemberName(gookie.getHgNm());

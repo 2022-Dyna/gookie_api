@@ -29,5 +29,5 @@ public interface MyPageMapper {
 
     List<FavoritesInfoDto> myFavorites(@Param("memberId") long memberId);
 
-    int insFavorites(long memberId, String monaCd);
+    int insFavorites(String memberId, String monaCd);
 }

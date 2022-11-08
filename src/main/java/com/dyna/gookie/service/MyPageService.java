@@ -13,5 +13,5 @@ public interface MyPageService {
 
     HashMap<String, Object> myFavorites(long memberId);
 
-    HashMap<String, Object> insFavorites(long memberId, String monaCd);
+    HashMap<String, Object> insFavorites(String memberId, String monaCd);
 }

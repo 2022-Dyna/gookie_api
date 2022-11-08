@@ -3,7 +3,7 @@
 <mapper namespace="com.dyna.gookie.mapper.LoginMapper">
     <!--TODO 로그인 -->
     <select id="login" resultType="Member">
-        SELECT member_login_id, member_login_pw, member_name, member_role
+        SELECT member_login_id, member_login_pw, member_name, member_role , member_id
         FROM member
         WHERE member_login_id = #{memberLoginId}
     </select>

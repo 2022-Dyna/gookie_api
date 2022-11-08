@@ -49,13 +49,15 @@ public class MyPageServiceImpl implements MyPageService {
     public HashMap<String, Object> myPageUpdate(PasswordDto dto){
         HashMap<String, Object> map = new HashMap<>();
         String dbPw = myPageMapper.selectPw(dto.getMemberId());
-        if (BCrypt.checkpw(dto.getMemberLonginPw(), dbPw)){
+        if (BCrypt.checkpw(dto.getMemberLoginPw(), dbPw)){
             String changePw = BCrypt.hashpw(dto.getChangePw(), BCrypt.gensalt());
             dto.setChangePw(changePw);
             myPageMapper.passWordUpdate(dto);
             map.put("message", "성공");
+            map.put("error", "0");
         }else {
             map.put("message", "현재 비밀번호 불일치");
+            map.put("error", "2");
         }
         return map;
     }
@@ -68,7 +70,7 @@ public class MyPageServiceImpl implements MyPageService {
     }
 
     @Override
-    public HashMap<String, Object> insFavorites(long memberId, String monaCd){
+    public HashMap<String, Object> insFavorites(String memberId, String monaCd){
         HashMap<String, Object> map = new HashMap<>();
         int result = myPageMapper.insFavorites(memberId, monaCd);
         if (result == 0){

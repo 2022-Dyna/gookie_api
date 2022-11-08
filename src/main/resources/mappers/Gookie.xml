@@ -4,8 +4,19 @@
 
     <!--TODO 국회의원 상세정보-->
     <select id="detailGookie" resultType="Gookie">
-        SELECT * FROM gookie
-        WHERE e_mail = #{eMail} AND mona_cd = #{monaCd}
+        SELECT
+            A.*
+             ,(SELECT COUNT(*) FROM favorites WHERE mona_cd = A.mona_cd) AS count
+             <if test="member_id neq null and member_id neq ''.toString">
+                 ,(SELECT COUNT(*) FROM favorites WHERE mona_cd = A.mona_cd AND member_id = #{member_id}) AS myfv
+             </if>
+        FROM gookie A
+        WHERE mona_cd = #{monaCd}
+    </select>
+
+    <select id="getGookieFav" resultType="Gookie">
+        SELECT count(*) as count FROM favorites
+        WHERE mona_cd = #{monaCd}
     </select>
 
     <!--TODO 국회의원 회의정보-->
@@ -49,5 +60,68 @@
                 ON gk.mona_cd = A.mona_cd
                 ORDER BY rate desc
                 LIMIT 0,5
+    </select>
+
+    <select id="getMostFa" resultType="hashmap">
+        SELECT A.fv_count, A.mona_cd, gk.hg_nm,gk.poly_nm FROM (
+           SELECT f.mona_cd,COUNT(f.mona_cd) AS fv_count
+                FROM favorites f
+                INNER JOIN gookie gk
+                ON gk.mona_cd = f.mona_cd
+           GROUP BY f.mona_cd) A
+           INNER JOIN gookie gk
+           ON gk.mona_cd = A.mona_cd
+        ORDER BY A.fv_count DESC
+    </select>
+
+    <select id="getMillId" resultType="hashmap">
+        select bill_id from allMeeting
+    </select>
+
+    <insert id="insertOpenApi">
+        insert into meetingResult
+        (mona_cd , result)
+        values
+        (#{mona_cd},#{result})
+    </insert>
+
+    <select id="meetingResult" resultType="hashmap">
+        SELECT result , COUNT(*) AS count FROM meetingResult WHERE mona_cd = #{mona_cd} GROUP BY result
+    </select>
+
+    <select id="getMyRate" resultType="hashmap">
+        SELECT
+            A.mona_cd
+             , A.con_count
+             , A.total_count
+             , Round(A.con_count/A.total_count*100) AS rate
+             , gk.hg_nm
+             , gk.poly_nm
+             , gk.e_mail
+        FROM(
+                SELECT
+                    rp.mona_cd
+                     , count(cr.reply_id) AS con_count
+                     , count(rp.reply_id) AS total_count
+                FROM reply rp
+                         left outer JOIN (
+                    SELECT
+                        reply_id
+                         , COUNT(reply_id) AS count
+                    FROM congress_reply
+                    GROUP BY reply_id
+                ) cr
+                                         ON cr.reply_id = rp.reply_id
+                GROUP BY  mona_cd
+            )A
+
+                INNER JOIN gookie gk
+                           ON gk.mona_cd = A.mona_cd
+        WHERE A.mona_cd = #{mona_cd}
+        ORDER BY rate desc
+    </select>
+
+    <select id="getPresent" resultType="hashmap">
+        SELECT * FROM meeting  WHERE rst_proposer = (SELECT hg_nm FROM gookie WHERE mona_cd = #{mona_cd} ) LIMIT 0,5
     </select>
 </mapper>

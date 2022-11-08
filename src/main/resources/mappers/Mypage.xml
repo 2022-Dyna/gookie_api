@@ -19,6 +19,7 @@
         FROM reply r
                  LEFT JOIN member m ON m.member_id = r.member_id
         WHERE r.member_id = #{memberId} AND r.reply_status = 1
+        LIMIT #{offset}, #{limit}
     </select>
 
     <select id="myCongressReplyCount" resultType="int">
@@ -44,7 +45,7 @@
     </select>
 
     <select id="myFavorites" resultType="FavoritesInfoDto">
-        SELECT g.hg_nm, g.poly_nm FROM favorites f
+        SELECT g.hg_nm, g.poly_nm,f.mona_cd,g.e_mail FROM favorites f
         LEFT JOIN gookie g ON f.mona_cd = g.mona_cd
         WHERE f.member_id = #{memberId}
     </select>

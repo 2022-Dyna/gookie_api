@@ -19,6 +19,7 @@ public class LoginServiceImpl implements LoginService {
     public HashMap<String,Object> login(HashMap<String ,Object> requestMap){
         HashMap<String ,Object> resultMap = new HashMap<>();
         Member member = loginMapper.login((String)requestMap.get("memberLoginId"));
+        System.out.println(member);
         if (ObjectUtils.isEmpty(member)){
             resultMap.put("result","1");
             return resultMap;

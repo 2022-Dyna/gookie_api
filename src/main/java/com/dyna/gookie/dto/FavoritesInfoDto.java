@@ -10,4 +10,6 @@ import org.apache.ibatis.type.Alias;
 public class FavoritesInfoDto {
     private String hgNm;
     private String polyNm;
+    private String monaCd;
+    private String eMail;
 }

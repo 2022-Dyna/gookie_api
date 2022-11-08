@@ -35,5 +35,7 @@ public class Gookie {
     private String selectary;
     private String origNm;
     private String unuts;
+    private String count;
+    private String myFv;
 
 }

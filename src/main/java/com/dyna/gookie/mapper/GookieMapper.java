@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface GookieMapper {
     //TODO 국회의원 상세 정보
-    Gookie detailGookie(@Param("eMail") String eMail, @Param("monaCd") String monaCd);
+    Gookie detailGookie( @Param("monaCd") String monaCd,@Param("member_id") String member_id);
 
     //TODO 국회의원 상세 정보
     List<HashMap<String,Object>> getMeetingList();
@@ -19,4 +19,15 @@ public interface GookieMapper {
     List<HashMap<String,Object>> getGookieList();
 
     List<HashMap<String,Object>> getBestCom();
+
+    List<HashMap<String,Object>> getMostFa();
+
+    List<HashMap<String,Object>> getMillId();
+
+    List<HashMap<String,Object>> meetingResult(HashMap<String,Object> hashMap);
+    List<HashMap<String,Object>> getPresent(HashMap<String,Object> hashMap);
+
+    int insertOpenApi(HashMap<String,Object> hashMap);
+
+    HashMap<String,Object> getMyRate(HashMap<String,Object> paramMap);
 }

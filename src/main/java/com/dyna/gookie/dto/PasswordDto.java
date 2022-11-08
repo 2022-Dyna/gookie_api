@@ -11,6 +11,6 @@ import org.apache.ibatis.type.Alias;
 @Alias("PasswordDto")
 public class PasswordDto {
     private long memberId;
-    private String memberLonginPw;
+    private String memberLoginPw;
     private String changePw;
 }

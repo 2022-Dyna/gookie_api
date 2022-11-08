@@ -31,11 +31,12 @@ public class MyPageController {
 
     @PostMapping("/update")
     public HashMap<String, Object> myPageUpdate(@RequestBody PasswordDto dto){
+        System.out.println(dto.toString());
         return myPageService.myPageUpdate(dto);
     }
 
-    @PostMapping("/favorites")
-    public HashMap<String, Object> insFavorites(@RequestParam(value = "memberId") long memberId, @RequestParam(value = "monaCd") String monaCd){
+    @GetMapping("/insfavorites")
+    public HashMap<String, Object> insFavorites(@RequestParam(value = "memberId") String memberId, @RequestParam(value = "monaCd") String monaCd){
         return myPageService.insFavorites(memberId, monaCd);
     }
 

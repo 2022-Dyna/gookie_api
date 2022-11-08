@@ -16,9 +16,9 @@ public class GookieServiceImpl implements GookieService {
 
     //TODO 국회의원 상세 정보
     @Override
-    public HashMap<String, Object> detailGookie(String eMail, String monaCd){
+    public HashMap<String, Object> detailGookie( String monaCd,String member_id){
         HashMap<String, Object> map = new HashMap<>();
-        Gookie gookie = gookieMapper.detailGookie(eMail, monaCd);
+        Gookie gookie = gookieMapper.detailGookie(monaCd,member_id);
         if (gookie == null){
             map.put("result", "데이터를 불러올 수 업습니다.");
         }else {
@@ -152,6 +152,11 @@ public class GookieServiceImpl implements GookieService {
         List<HashMap<String,Object>> list = gookieMapper.getBestCom();
 
         return list;
+    }
+
+    @Override
+    public List<HashMap<String, Object>> getMostFa() {
+        return gookieMapper.getMostFa();
     }
 
 
