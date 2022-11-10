@@ -14,10 +14,11 @@
     </select>
 
     <select id="myReplyList" resultType="ReplyListDto">
-        SELECT r.*, m.member_name,
+        SELECT r.*, m.member_name,g.poly_nm,g.hg_nm,
                (SELECT COUNT(*) FROM likes l WHERE r.reply_id = l.reply_id AND likes_type = 0) AS likesCount
         FROM reply r
                  LEFT JOIN member m ON m.member_id = r.member_id
+                 JOIN gookie g ON g.mona_cd = r.mona_cd
         WHERE r.member_id = #{memberId} AND r.reply_status = 1
         LIMIT #{offset}, #{limit}
     </select>

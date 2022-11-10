@@ -31,9 +31,12 @@ public class ReplyListDto {
     private int replyStatus;
     //TODO 댓글 작성자 이름
     private String memberName;
+    private String hgNm;
+    private String polyNm;
 
     //TODO 댓글에 달린 좋아요 슨
     private long likesCount;
+    private int myLike;
 
     private List<CongressReplyDto> congressReplyList;
 }

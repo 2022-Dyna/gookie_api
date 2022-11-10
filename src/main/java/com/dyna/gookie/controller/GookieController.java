@@ -121,4 +121,28 @@ public class GookieController {
 
         return new ResponseEntity<>(response, httpHeaders, HttpStatus.OK);
     }
+
+    @GetMapping("/getAlarm")
+    public ResponseEntity getMostFa(@RequestParam HashMap<String,Object> requestParam) {
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+
+        List<HashMap<String, Object>> map = gookieMapper.getAlarm(requestParam);
+
+        Response response = new Response(200, "성공", map);
+
+        return new ResponseEntity<>(response, httpHeaders, HttpStatus.OK);
+    }
+
+    @GetMapping("/insAlarm")
+    public ResponseEntity insAlarm(@RequestParam HashMap<String,Object> requestParam) {
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+
+        int num = gookieMapper.insAlarm(requestParam);
+
+        Response response = new Response(200, "성공", num);
+
+        return new ResponseEntity<>(response, httpHeaders, HttpStatus.OK);
+    }
 }

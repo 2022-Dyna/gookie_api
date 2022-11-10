@@ -20,5 +20,6 @@ public class CongressReplyDto {
     private String congressReplyCreateDate;
     private String congressReplyModifyDate;
     private String likesCount;
+    private int myLike;
 
 }

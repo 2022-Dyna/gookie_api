@@ -23,11 +23,13 @@ public interface GookieMapper {
     List<HashMap<String,Object>> getMostFa();
 
     List<HashMap<String,Object>> getMillId();
+    List<HashMap<String,Object>> getAlarm(HashMap<String,Object> hashMap);
 
     List<HashMap<String,Object>> meetingResult(HashMap<String,Object> hashMap);
     List<HashMap<String,Object>> getPresent(HashMap<String,Object> hashMap);
 
     int insertOpenApi(HashMap<String,Object> hashMap);
+    int insAlarm(HashMap<String,Object> hashMap);
 
     HashMap<String,Object> getMyRate(HashMap<String,Object> paramMap);
 }

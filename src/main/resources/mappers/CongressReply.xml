@@ -7,6 +7,9 @@
         SELECT cr.congress_reply_id, m.member_id, m.member_name, cr.congress_reply_content,
                cr.congress_reply_create_date, cr.congress_reply_modify_date,
                (SELECT COUNT(*) FROM likes l WHERE l.reply_id = cr.congress_reply_id AND likes_type = 1) AS likesCount
+                <if test="memberId neq null and memberId neq ''.toString()">
+                    ,(SELECT l.likes_id FROM likes l WHERE l.reply_id = cr.congress_reply_id AND likes_type = 1 AND member_id = 13) AS myLike
+                </if>
         FROM congress_reply cr
         INNER JOIN member m ON m.member_id = cr.member_id
         INNER JOIN reply r ON r.reply_id = cr.reply_id

@@ -16,7 +16,7 @@ public class CongressReplyServiceImpl implements CongressReplyService {
     @Override
     public HashMap<String, Object> congressReplyList(int replyId){
         HashMap<String, Object> map = new HashMap<>();
-        map.put("list", congressReplyMapper.congressReplyList(replyId));
+        map.put("list", congressReplyMapper.congressReplyList(replyId,""));
         return map;
     }
 

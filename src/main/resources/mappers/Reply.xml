@@ -12,38 +12,30 @@
 
     <!--TODO 국회의원에 대한 댓글 리스트 -->
     <select id="replyList" resultType="ReplyListDto">
-        SELECT   r.reply_id
-                ,r.member_id
-                ,r.congress_id
-                ,r.reply_content
-                ,r.reply_status
-                ,DATE_FORMAT(r.reply_create_date,'%Y.%m.%d') as reply_create_date
-                ,DATE_FORMAT(r.reply_modify_date,'%Y.%m.%d') as reply_modify_date
-                ,m.member_name
-                ,(SELECT COUNT(*) FROM likes l WHERE r.reply_id = l.reply_id AND likes_type = 0) AS likesCount
+        SELECT r.*, m.member_name,
+        (SELECT COUNT(*) FROM likes l WHERE r.reply_id = l.reply_id AND likes_type = 0) AS likesCount
+        <if test="memberId neq null and memberId neq ''.toString()">
+            ,ifnull(l.likes_id,0) AS myLike
+        </if>
         FROM reply r
         LEFT JOIN member m ON m.member_id = r.member_id
+        <if test="memberId neq null and memberId neq ''.toString()">
+            left JOIN (SELECT * from likes WHERE member_id = #{memberId} AND likes_type = 0) l ON l.reply_id =r.reply_id
+        </if>
         WHERE r.mona_cd = #{monaCd} AND r.reply_status = 1
-        <choose>
-            <when test="sort == 1">
-                ORDER BY likesCount DESC
-            </when>
-            <when test="sort == 2">
-                ORDER BY r.reply_create_date DESC
-            </when>
-        </choose>
+        ORDER BY r.reply_create_date DESC
         LIMIT #{offset}, #{limit}
     </select>
 
     <!--TODO 베스트 댓글 리스트 -->
     <select id="bestReplyList" resultType="ReplyListDto">
         SELECT r.*, m.member_name,
-        (SELECT COUNT(*) FROM likes l WHERE r.reply_id = l.reply_id AND likes_type = 0) AS likesCount
+               (SELECT COUNT(*) FROM likes l WHERE r.reply_id = l.reply_id AND likes_type = 0) AS likesCount
         FROM reply r
-        LEFT JOIN member m ON m.member_id = r.member_id
+                 LEFT JOIN member m ON m.member_id = r.member_id
         WHERE r.reply_status = 1 <![CDATA[AND DATE(r.reply_create_date) >= DATE(#{startDate}) AND DATE(r.reply_create_date) <= DATE(#{endDate})]]>
         ORDER BY likesCount DESC
-        LIMIT 0,5
+            LIMIT 0,5
     </select>
 
     <!--TODO 댓글 작성-->
@@ -73,14 +65,4 @@
         SET reply_status = 0
         WHERE reply_id = #{replyId} AND member_id = #{memberId}
     </delete>
-
-
-
-    <select id="myReplyList" resultType="ReplyListDto">
-        SELECT *
-        FROM reply
-        WHERE member_id = #{memberId}
-        ORDER BY reply_create_date
-            LIMIT ${pageNum}, ${maxIdx}
-    </select>
 </mapper>

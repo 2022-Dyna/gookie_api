@@ -32,10 +32,10 @@ public class ReplyController {
     //TODO 국회의원 댓글 조회
         @GetMapping("/search")
     public ResponseEntity replyList(@RequestParam(value = "monaCd") String monaCd, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum
-                                    ,@RequestParam(value = "sort", defaultValue = "1") int sort){
+                                    ,@RequestParam(value = "sort", defaultValue = "1") int sort,@RequestParam(value = "memberId", defaultValue = "") String memberId){
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        ReplyDto replyList = replyService.replyList(monaCd, pageNum, sort);
+        ReplyDto replyList = replyService.replyList(monaCd, pageNum, sort ,memberId);
 
         Response response = new Response(200, "성공", replyList);
 

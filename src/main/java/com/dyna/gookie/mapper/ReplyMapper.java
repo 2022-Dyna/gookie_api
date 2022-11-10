@@ -18,7 +18,7 @@ public interface ReplyMapper {
     List<ReplyListDto> bestReplyList(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
     //TODO 해당 국회의원에 대한 댓글 리스트
-    List<ReplyListDto> replyList(@Param("monaCd") String monaCd, @Param("sort")  int sort, @Param("offset") int offset, @Param("limit") int limit);
+    List<ReplyListDto> replyList(@Param("monaCd") String monaCd, @Param("sort")  int sort, @Param("offset") int offset, @Param("limit") int limit, @Param("memberId") String memberId);
 
     //TODO 댓글 작성
     int replyWrite(Reply reply);

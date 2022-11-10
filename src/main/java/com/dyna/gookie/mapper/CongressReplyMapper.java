@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface CongressReplyMapper {
-    List<CongressReplyDto> congressReplyList(@Param("replyId") long replyId);
+    List<CongressReplyDto> congressReplyList(@Param("replyId") long replyId, @Param("memberId") String memberId);
 
     int insCongressReply(@Param("memberId") long memberId, @Param("replyId") long replyId, @Param("congressReplyContent") String congressReplyContent);
 

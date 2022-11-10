@@ -124,4 +124,28 @@
     <select id="getPresent" resultType="hashmap">
         SELECT * FROM meeting  WHERE rst_proposer = (SELECT hg_nm FROM gookie WHERE mona_cd = #{mona_cd} ) LIMIT 0,5
     </select>
+
+    <select id="getAlarm" resultType="hashmap">
+        SELECT DISTINCT (r.reply_id),r.mona_cd,m.member_name,r.member_id,r.reply_create_date,g.hg_nm,g.poly_nm ,ifNull(a.reply_id,0)AS alarm
+        FROM reply r
+                 JOIN congress_reply cr ON cr.reply_id = r.reply_id
+                 INNER JOIN member m ON m.member_id = r.member_id
+                 left JOIN gookie g ON g.mona_cd = r.mona_cd
+                 LEFT JOIN alarm a ON a.reply_id = r.reply_id and a.member_id = #{memberId}
+        <if test="monaCd eq null or monaCd eq ''.toString()">
+            WHERE r.member_id = #{memberId}
+        </if>
+        <if test="monaCd neq null and monaCd neq ''.toString()">
+            WHERE r.mona_cd = #{monaCd}
+        </if>
+        order by r.reply_create_date desc
+        limit 0,20
+    </select>
+
+    <insert id="insAlarm" parameterType="hashmap">
+        insert into alarm
+        (member_id,reply_id)
+        values
+        (#{member_id},#{reply_id})
+    </insert>
 </mapper>

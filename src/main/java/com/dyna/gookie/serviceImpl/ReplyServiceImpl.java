@@ -31,15 +31,15 @@ public class ReplyServiceImpl implements ReplyService {
 
     //TODO 해당 국회의원에 대한 댓글 리스트
     @Override
-    public ReplyDto replyList(String monaCd, int pageNum, int sort){
+    public ReplyDto replyList(String monaCd, int pageNum, int sort,String memberId){
         int count = replyMapper.replyCount(monaCd);
 
-        Pagination pagination = MyUtils.Paging(count, pageNum, 10);
-
-        List<ReplyListDto> list = replyMapper.replyList(monaCd, sort, pagination.getOffset(), pagination.getLimit());
+        Pagination pagination = MyUtils.Paging(count, pageNum, 20);
+        System.out.println(memberId);
+        List<ReplyListDto> list = replyMapper.replyList(monaCd, sort, pagination.getOffset(), pagination.getLimit(),memberId);
 
         for (ReplyListDto r : list){
-            r.setCongressReplyList(congressReplyMapper.congressReplyList(r.getReplyId()));
+            r.setCongressReplyList(congressReplyMapper.congressReplyList(r.getReplyId(),memberId));
         }
 
         return ReplyDto.builder().replyList(list).pagination(pagination).build();
