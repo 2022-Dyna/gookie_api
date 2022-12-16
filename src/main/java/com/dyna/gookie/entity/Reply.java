@@ -19,12 +19,12 @@ public class Reply {
     private String monaCd;
     //TODO 댓글 내용
     private String replyContent;
-    //TODO 댓글 상태 0삭제 1 활성
+    //TODO 댓글 상태 0삭제 1 활성gi
     private int replyStatus;
     //TODO 댓글 생성일
     private String replyCreateDate;
     //TODO 댓글 수정일
     private String replyModifyDate;
-
+    //TODO 롤 추가
     private String role;
 }
